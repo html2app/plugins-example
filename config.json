@@ -1,0 +1,11 @@
+{
+  "name": "My nav app",
+  "version": "1.0.3",
+  "build": 3,
+  "id": "com.navigation.app",
+  "fullscreen": false,
+  "orientation": "portrait",
+  "plugins": [
+    "@capacitor/app@4"
+  ]
+}
