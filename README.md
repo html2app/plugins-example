@@ -2,7 +2,7 @@
 
 To build on https://html2app.dev/
 
-This example uses the plugin `@capacitor/app@4`.
+This example uses the plugins `@capacitor/app@4` and `@capacitor/toast@4`.
 
 ## How to
 

@@ -342,7 +342,7 @@
           try {
             const cookies = document.cookie.split(";") || [];
             for (const cookie of cookies) {
-              document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+              document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, `=;expires=${(/* @__PURE__ */ new Date()).toUTCString()};path=/`);
             }
           } catch (error) {
             return Promise.reject(error);
@@ -432,6 +432,10 @@
         return output;
       };
       CapacitorHttpPluginWeb = class extends WebPlugin {
+        /**
+         * Perform an Http request given a set of options
+         * @param options Options to build the HTTP request
+         */
         async request(options) {
           const requestInit = buildRequestInit(options, options.webFetchExtra);
           const urlParams = buildUrlParams(options.params, options.shouldEncodeUrlParams);
@@ -469,18 +473,38 @@
             url: response.url
           };
         }
+        /**
+         * Perform an Http GET request given a set of options
+         * @param options Options to build the HTTP request
+         */
         async get(options) {
           return this.request(Object.assign(Object.assign({}, options), { method: "GET" }));
         }
+        /**
+         * Perform an Http POST request given a set of options
+         * @param options Options to build the HTTP request
+         */
         async post(options) {
           return this.request(Object.assign(Object.assign({}, options), { method: "POST" }));
         }
+        /**
+         * Perform an Http PUT request given a set of options
+         * @param options Options to build the HTTP request
+         */
         async put(options) {
           return this.request(Object.assign(Object.assign({}, options), { method: "PUT" }));
         }
+        /**
+         * Perform an Http PATCH request given a set of options
+         * @param options Options to build the HTTP request
+         */
         async patch(options) {
           return this.request(Object.assign(Object.assign({}, options), { method: "PATCH" }));
         }
+        /**
+         * Perform an Http DELETE request given a set of options
+         * @param options Options to build the HTTP request
+         */
         async delete(options) {
           return this.request(Object.assign(Object.assign({}, options), { method: "DELETE" }));
         }
@@ -535,16 +559,49 @@
     }
   });
 
+  // node_modules/@capacitor/toast/dist/esm/web.js
+  var web_exports2 = {};
+  __export(web_exports2, {
+    ToastWeb: () => ToastWeb
+  });
+  var ToastWeb;
+  var init_web2 = __esm({
+    "node_modules/@capacitor/toast/dist/esm/web.js"() {
+      init_dist();
+      ToastWeb = class extends WebPlugin {
+        async show(options) {
+          if (typeof document !== "undefined") {
+            let duration = 2e3;
+            if (options.duration) {
+              duration = options.duration === "long" ? 3500 : 2e3;
+            }
+            const toast2 = document.createElement("pwa-toast");
+            toast2.duration = duration;
+            toast2.message = options.text;
+            document.body.appendChild(toast2);
+          }
+        }
+      };
+    }
+  });
+
   // node_modules/@capacitor/app/dist/esm/index.js
   init_dist();
   var App = registerPlugin("App", {
     web: () => Promise.resolve().then(() => (init_web(), web_exports)).then((m) => new m.AppWeb())
   });
 
+  // node_modules/@capacitor/toast/dist/esm/index.js
+  init_dist();
+  var Toast = registerPlugin("Toast", {
+    web: () => Promise.resolve().then(() => (init_web2(), web_exports2)).then((m) => new m.ToastWeb())
+  });
+
   // www/index.js
   var list = document.getElementById("list");
   var back = document.getElementById("back");
   var next = document.getElementById("next");
+  var toast = document.getElementById("toast");
   App.addListener("backButton", () => goBack());
   back.addEventListener("click", () => goBack());
   next.addEventListener("click", () => {
@@ -557,6 +614,12 @@
     const count = list.children.length;
     count <= 1 ? App.exitApp() : list.lastElementChild.remove();
   };
+  toast.addEventListener("click", async () => {
+    console.log("Show toast");
+    await Toast.show({
+      text: "Hello!"
+    });
+  });
 })();
 /*! Bundled license information:
 

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@capacitor/app": "^4"
+    "@capacitor/app": "^4",
+    "@capacitor/toast": "^4"
   }
 }

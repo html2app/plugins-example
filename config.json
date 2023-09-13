@@ -6,6 +6,7 @@
   "fullscreen": false,
   "orientation": "portrait",
   "plugins": [
-    "@capacitor/app@4"
+    "@capacitor/app@4",
+    "@capacitor/toast@4"
   ]
 }

@@ -1,8 +1,10 @@
 const list = document.getElementById('list')
 const back = document.getElementById('back')
 const next = document.getElementById('next')
+const toast = document.getElementById('toast')
 
 import { App as CapacitorApp } from '@capacitor/app'
+import { Toast } from '@capacitor/toast'
 
 // https://stackoverflow.com/a/69084017
 CapacitorApp.addListener('backButton', () => goBack())
@@ -20,3 +22,10 @@ const goBack = () => {
   const count = list.children.length
   count <= 1 ? CapacitorApp.exitApp() : list.lastElementChild.remove()
 }
+
+toast.addEventListener('click', async () => {
+  console.log('Show toast')
+  await Toast.show({
+    text: 'Hello!'
+  })
+})
