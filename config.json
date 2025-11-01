@@ -1,12 +1,9 @@
 {
   "name": "My nav app",
-  "version": "1.0.3",
-  "build": 3,
+  "version": "1.0.4",
+  "build": 4,
   "id": "com.navigation.app",
   "fullscreen": false,
   "orientation": "portrait",
-  "plugins": [
-    "@capacitor/app@4",
-    "@capacitor/toast@4"
-  ]
+  "plugins": ["@capacitor/app@5", "@capacitor/toast@5"]
 }

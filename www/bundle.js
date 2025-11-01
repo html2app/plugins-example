@@ -174,6 +174,7 @@
           const proxy = new Proxy({}, {
             get(_, prop) {
               switch (prop) {
+                // https://github.com/facebook/react/issues/20030
                 case "$$typeof":
                   return void 0;
                 case "toJSON":
@@ -411,7 +412,7 @@
             params.set(key, value);
           }
           output.body = params.toString();
-        } else if (type.includes("multipart/form-data")) {
+        } else if (type.includes("multipart/form-data") || options.data instanceof FormData) {
           const form = new FormData();
           if (options.data instanceof FormData) {
             options.data.forEach((value, key) => {
