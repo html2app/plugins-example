@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>رزنامة العمل</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #f5f5f5; }
+    h1 { color: #2e7d32; }
+    table { border-collapse: collapse; margin: auto; }
+    td { border: 1px solid #ccc; width: 40px; height: 40px; text-align: center; }
+    .work { background: #4caf50; color: white; }
+    .rest { background: white; }
+    .month { margin: 20px auto; border: 2px solid #4caf50; padding: 10px; border-radius: 10px; width: fit-content; }
+    select { font-size: 16px; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>رزنامة أوقات العمل</h1>
+  <select id="year"></select>
+  <div id="calendar"></div>
+
+  <script>
+    const yearSelect = document.getElementById("year");
+    for (let y = 2025; y <= 2050; y++) {
+      const opt = document.createElement("option");
+      opt.value = y; opt.textContent = y;
+      yearSelect.appendChild(opt);
+    }
+    yearSelect.value = 2025;
+
+    function buildCalendar(year) {
+      const cal = document.getElementById("calendar");
+      cal.innerHTML = "";
+      let dayCounter = 0;
+      for (let m = 0; m < 12; m++) {
+        const monthDiv = document.createElement("div");
+        monthDiv.className = "month";
+        const monthName = new Date(year, m).toLocaleString("ar", { month: "long" });
+        const table = document.createElement("table");
+        const caption = document.createElement("caption");
+        caption.textContent = monthName;
+        table.appendChild(caption);
+        let row = document.createElement("tr");
+        for (let d = 1; d <= new Date(year, m + 1, 0).getDate(); d++) {
+          const td = document.createElement("td");
+          const pattern = (dayCounter % 8);
+          if (pattern < 4) td.className = "work"; // يومين صباح + يومين مساء
+          else td.className = "rest";             // 4 أيام راحة
+          td.textContent = d;
+          row.appendChild(td);
+          if (row.children.length === 7) {
+            table.appendChild(row);
+            row = document.createElement("tr");
+          }
+          dayCounter++;
+        }
+        table.appendChild(row);
+        monthDiv.appendChild(table);
+        cal.appendChild(monthDiv);
+      }
+    }
+    yearSelect.addEventListener("change", e => buildCalendar(parseInt(e.target.value)));
+    buildCalendar(2025);
+  </script>
+</body>
+</html>
