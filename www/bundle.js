@@ -586,6 +586,88 @@
     }
   });
 
+  // node_modules/@capacitor/haptics/dist/esm/definitions.js
+  var ImpactStyle, NotificationType;
+  var init_definitions = __esm({
+    "node_modules/@capacitor/haptics/dist/esm/definitions.js"() {
+      (function(ImpactStyle2) {
+        ImpactStyle2["Heavy"] = "HEAVY";
+        ImpactStyle2["Medium"] = "MEDIUM";
+        ImpactStyle2["Light"] = "LIGHT";
+      })(ImpactStyle || (ImpactStyle = {}));
+      (function(NotificationType2) {
+        NotificationType2["Success"] = "SUCCESS";
+        NotificationType2["Warning"] = "WARNING";
+        NotificationType2["Error"] = "ERROR";
+      })(NotificationType || (NotificationType = {}));
+    }
+  });
+
+  // node_modules/@capacitor/haptics/dist/esm/web.js
+  var web_exports3 = {};
+  __export(web_exports3, {
+    HapticsWeb: () => HapticsWeb
+  });
+  var HapticsWeb;
+  var init_web3 = __esm({
+    "node_modules/@capacitor/haptics/dist/esm/web.js"() {
+      init_dist();
+      init_definitions();
+      HapticsWeb = class extends WebPlugin {
+        constructor() {
+          super(...arguments);
+          this.selectionStarted = false;
+        }
+        async impact(options) {
+          const pattern = this.patternForImpact(options === null || options === void 0 ? void 0 : options.style);
+          this.vibrateWithPattern(pattern);
+        }
+        async notification(options) {
+          const pattern = this.patternForNotification(options === null || options === void 0 ? void 0 : options.type);
+          this.vibrateWithPattern(pattern);
+        }
+        async vibrate(options) {
+          const duration = (options === null || options === void 0 ? void 0 : options.duration) || 300;
+          this.vibrateWithPattern([duration]);
+        }
+        async selectionStart() {
+          this.selectionStarted = true;
+        }
+        async selectionChanged() {
+          if (this.selectionStarted) {
+            this.vibrateWithPattern([70]);
+          }
+        }
+        async selectionEnd() {
+          this.selectionStarted = false;
+        }
+        patternForImpact(style = ImpactStyle.Heavy) {
+          if (style === ImpactStyle.Medium) {
+            return [43];
+          } else if (style === ImpactStyle.Light) {
+            return [20];
+          }
+          return [61];
+        }
+        patternForNotification(type = NotificationType.Success) {
+          if (type === NotificationType.Warning) {
+            return [30, 40, 30, 50, 60];
+          } else if (type === NotificationType.Error) {
+            return [27, 45, 50];
+          }
+          return [35, 65, 21];
+        }
+        vibrateWithPattern(pattern) {
+          if (navigator.vibrate) {
+            navigator.vibrate(pattern);
+          } else {
+            throw this.unavailable("Browser does not support the vibrate API");
+          }
+        }
+      };
+    }
+  });
+
   // node_modules/@capacitor/app/dist/esm/index.js
   init_dist();
   var App = registerPlugin("App", {
@@ -598,11 +680,19 @@
     web: () => Promise.resolve().then(() => (init_web2(), web_exports2)).then((m) => new m.ToastWeb())
   });
 
+  // node_modules/@capacitor/haptics/dist/esm/index.js
+  init_dist();
+  init_definitions();
+  var Haptics = registerPlugin("Haptics", {
+    web: () => Promise.resolve().then(() => (init_web3(), web_exports3)).then((m) => new m.HapticsWeb())
+  });
+
   // www/index.js
   var list = document.getElementById("list");
   var back = document.getElementById("back");
   var next = document.getElementById("next");
   var toast = document.getElementById("toast");
+  var vibrate = document.getElementById("vibrate");
   App.addListener("backButton", () => goBack());
   back.addEventListener("click", () => goBack());
   next.addEventListener("click", () => {
@@ -620,6 +710,10 @@
     await Toast.show({
       text: "Hello!"
     });
+  });
+  vibrate.addEventListener("click", async () => {
+    console.log("Vibrate");
+    await Haptics.vibrate();
   });
 })();
 /*! Bundled license information:

@@ -1,9 +1,9 @@
 {
   "name": "My nav app",
-  "version": "1.0.4",
-  "build": 4,
-  "id": "com.navigation.app",
+  "version": "1.0.5",
+  "build": 5,
+  "id": "com.example.navigationApp",
   "fullscreen": false,
   "orientation": "portrait",
-  "plugins": ["@capacitor/app@5", "@capacitor/toast@5"]
+  "plugins": ["@capacitor/app@5", "@capacitor/toast@5", "@capacitor/haptics@5"]
 }
