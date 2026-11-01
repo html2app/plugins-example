@@ -1,23 +1,22 @@
-# Capacitor app with plugins
+# Mobile App with Plugins
 
-To build on https://html2app.dev/
+To build on [https://html2app.dev/](https://html2app.dev/).
 
-This example uses the plugins `@capacitor/app@5`, `@capacitor/toast@5` and `@capacitor/haptics@5`.
+This example uses the plugins `vibration` and `Share`.
 
 ## How to
-
-Either [download the apk (for android)](app-debug.apk) or build it yourself:
 
 ```bash
 # install dependencies
 npm i
 
 # build
-npx -y esbuild www/index.js --bundle --outfile=www/bundle.js
+npx -y esbuild www/index.ts --bundle --outfile=www/bundle.js
 
 # zip all files
-(linux/macos) zip -r app.zip www assets config.json
-(windows) tar.exe -acvf app.zip www assets config.json
+(linux/macos) zip -r app.zip www
+(windows) tar.exe -acvf app.zip www
 
 # now upload app.zip to https://html2app.dev/
+# on html2app.dev select and active the Vibration ahs Share plugins.
 ```

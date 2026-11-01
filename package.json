@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@capacitor/app": "^5",
-    "@capacitor/haptics": "^5",
-    "@capacitor/toast": "^5"
+    "@yandeu/js-bridge": "0.0.2"
   }
 }
